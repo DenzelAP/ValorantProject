@@ -15,6 +15,12 @@ const Layout = () => {
           title: 'Characters',
         }}
       />
+      <Drawer.Screen
+        name="weapons"
+        options={{
+          title: 'Weapons',
+        }}
+      />
     </Drawer>
   );
 }
