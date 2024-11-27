@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, Image, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  StyleSheet,
+  TextInput,
+} from "react-native";
 import { Character } from "@/types";
+import * as Font from "expo-font";
 
 interface CharacterCardProps {
   item: Character;
@@ -9,18 +17,24 @@ interface CharacterCardProps {
 const CharacterCard = ({ item }: CharacterCardProps) => {
   return (
     <View style={styles.card}>
+      <Text style={styles.characterName}>{item.displayName}</Text>
+
       <Image
         source={{ uri: item.displayIcon }}
         style={styles.characterImage}
         resizeMode="cover"
       />
-      <Text style={styles.characterName}>{item.displayName}</Text>
     </View>
   );
 };
 
 const Characters = () => {
   const [characters, setCharacters] = useState<Character[]>([]);
+  const [filter, setFilter] = useState("");
+
+  const filteredCharacters = characters.filter((character) =>
+    character.displayName.toLowerCase().includes(filter.toLowerCase())
+  );
 
   const loadCharacters = async () => {
     try {
@@ -32,20 +46,44 @@ const Characters = () => {
     }
   };
 
+  const loadFonts = async () => {
+    await Font.loadAsync({
+      valorant: require("../../assets/fonts/ValorantFont.ttf"),
+    });
+  };
+
   useEffect(() => {
     loadCharacters();
+    loadFonts();
   }, []);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Characters</Text>
+      <Text style={styles.title}>SELECT AN AGENT</Text>
+
+      <View>
+        <TextInput
+          onChangeText={(text) => setFilter(text)}
+          value={filter}
+          placeholder="Search for an agent..."
+          style={{
+            backgroundColor: "#fff",
+            borderColor: "#ddd",
+            height: 50,
+            width: 325,
+            borderRadius: 8,
+            padding: 15,
+            marginBottom: 10,
+            borderWidth: 1,
+            elevation: 10,
+          }}
+        />
+      </View>
 
       <FlatList
-        data={characters}
+        data={filteredCharacters}
         renderItem={({ item }) => <CharacterCard item={item} />}
         keyExtractor={(item) => item.uuid}
-        numColumns={2}
-        contentContainerStyle={styles.listContainer}
       />
     </View>
   );
@@ -55,44 +93,43 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "black",
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 16,
     textAlign: "center",
+    color: "white",
   },
   listContainer: {
     paddingBottom: 16,
   },
   card: {
     flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-around",
     margin: 8,
-    backgroundColor: "#ffffff",
+    backgroundColor: "#5A002C",
+    borderWidth: 2,
+    borderColor: "FF4D4D",
     borderRadius: 8,
     alignItems: "center",
     padding: 16,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    elevation: 4,
   },
   characterImage: {
-    width: 150,
-    height: 150,
+    width: 75,
+    height: 75,
     borderRadius: 8,
   },
   characterName: {
-    fontSize: 16,
-    fontWeight: "600",
+    fontFamily: "valorant",
+    fontSize: 24,
+    fontWeight: "800",
     marginTop: 8,
     textAlign: "center",
-  },
-  error: {
-    fontSize: 16,
-    color: "red",
-    textAlign: "center",
+    color: "white",
   },
 });
 
