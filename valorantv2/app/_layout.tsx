@@ -1,14 +1,16 @@
+import DataProvider from "@/components/DataProvider";
 import { Stack } from "expo-router";
 
 const Layout = () => {
   return (
-    <Stack
-      screenOptions={{
-        headerShown: false,
-        statusBarBackgroundColor: "black",
-      }}
-    >
-    </Stack>
+    <DataProvider>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          statusBarBackgroundColor: "black",
+        }}
+      ></Stack>
+    </DataProvider>
   );
 };
 

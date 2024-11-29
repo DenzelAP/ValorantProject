@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   View,
   FlatList,
@@ -8,6 +8,7 @@ import {
   TextInput,
 } from "react-native";
 import { Weapon } from "@/types";
+import { DataContext } from "@/components/DataProvider";
 
 interface WeaponCardProps {
   item: Weapon;
@@ -23,27 +24,15 @@ const WeaponCard = ({ item }: WeaponCardProps) => {
 };
 
 const Weapons = () => {
-  const [weapons, setWeapons] = useState<Weapon[]>([]);
   const [filter, setFilter] = useState("");
 
-  const loadWeapons = async () => {
-    try {
-      const response = await fetch("https://valorant-api.com/v1/weapons");
-      const data = await response.json();
-      setWeapons(data.data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const { weapons } = useContext(DataContext);
 
   const filteredWeapons = weapons.filter((weapon) =>
     weapon.displayName.toLowerCase().includes(filter.toLowerCase())
   );
 
-  useEffect(() => {
-    loadWeapons();
-  }, []);
-
+  
   return (
     <View style={styles.container}>
       <Text style={styles.title}>SELECT A WEAPON</Text>
@@ -94,8 +83,8 @@ const styles = StyleSheet.create({
   card: {
     padding: 16,
     backgroundColor: "#5A002C",
-    borderWidth: 2,
-    borderColor: "FF4D4D",
+    borderWidth: 1,
+    borderColor: "red",
     borderRadius: 8,
     marginBottom: 16,
   },

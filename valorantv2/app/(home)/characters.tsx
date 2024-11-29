@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -8,7 +8,9 @@ import {
   TextInput,
 } from "react-native";
 import { Character } from "@/types";
-import * as Font from "expo-font";
+import { useContext } from "react";
+import { DataContext } from "@/components/DataProvider";
+
 
 interface CharacterCardProps {
   item: Character;
@@ -29,33 +31,13 @@ const CharacterCard = ({ item }: CharacterCardProps) => {
 };
 
 const Characters = () => {
-  const [characters, setCharacters] = useState<Character[]>([]);
   const [filter, setFilter] = useState("");
+
+  const { characters } = useContext(DataContext);
 
   const filteredCharacters = characters.filter((character) =>
     character.displayName.toLowerCase().includes(filter.toLowerCase())
   );
-
-  const loadCharacters = async () => {
-    try {
-      const response = await fetch("https://valorant-api.com/v1/agents");
-      const data = await response.json();
-      setCharacters(data.data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const loadFonts = async () => {
-    await Font.loadAsync({
-      valorant: require("../../assets/fonts/ValorantFont.ttf"),
-    });
-  };
-
-  useEffect(() => {
-    loadCharacters();
-    loadFonts();
-  }, []);
 
   return (
     <View style={styles.container}>
@@ -111,8 +93,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     margin: 8,
     backgroundColor: "#5A002C",
-    borderWidth: 2,
-    borderColor: "FF4D4D",
+    borderWidth: 1,
+    borderColor: "red",
     borderRadius: 8,
     alignItems: "center",
     padding: 16,
