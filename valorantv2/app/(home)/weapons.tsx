@@ -41,7 +41,7 @@ const Weapons = () => {
         <TextInput
           onChangeText={(text) => setFilter(text)}
           value={filter}
-          placeholder="Search for an weapon..."
+          placeholder="Search for a weapon..."
           style={{
             backgroundColor: "#fff",
             borderColor: "#ddd",

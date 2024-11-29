@@ -6,27 +6,32 @@ import {
   Image,
   StyleSheet,
   TextInput,
+  Pressable,
 } from "react-native";
 import { Character } from "@/types";
 import { useContext } from "react";
 import { DataContext } from "@/components/DataProvider";
-
+import { useRouter } from "expo-router";
 
 interface CharacterCardProps {
   item: Character;
 }
 
 const CharacterCard = ({ item }: CharacterCardProps) => {
+  const router = useRouter();
   return (
-    <View style={styles.card}>
-      <Text style={styles.characterName}>{item.displayName}</Text>
-
-      <Image
-        source={{ uri: item.displayIcon }}
-        style={styles.characterImage}
-        resizeMode="cover"
-      />
-    </View>
+    <Pressable onPress={() => { router.push(`/${item.uuid}`) }}>
+      {({ pressed }) => (
+        <View style={[styles.card, { opacity: pressed ? 0.5 : 1 }]}>
+          <Text style={styles.characterName}>{item.displayName}</Text>
+          <Image
+            source={{ uri: item.displayIcon }}
+            style={styles.characterImage}
+            resizeMode="cover"
+          />
+        </View>
+      )}
+    </Pressable>
   );
 };
 
@@ -91,24 +96,25 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-around",
-    margin: 8,
+    margin: 10,
+    borderRadius: 10,
+    overflow: 'hidden',
     backgroundColor: "#5A002C",
     borderWidth: 1,
     borderColor: "red",
-    borderRadius: 8,
     alignItems: "center",
     padding: 16,
     elevation: 4,
   },
   characterImage: {
-    width: 75,
-    height: 75,
+    width: 150,
+    height: 150,
     borderRadius: 8,
   },
   characterName: {
     fontFamily: "valorant",
-    fontSize: 24,
-    fontWeight: "800",
+    fontSize: 18,
+    fontWeight: "bold",
     marginTop: 8,
     textAlign: "center",
     color: "white",
