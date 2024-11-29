@@ -55,7 +55,7 @@ const Characters = () => {
           placeholder="Search for an agent..."
           style={{
             backgroundColor: "#fff",
-            borderColor: "#ddd",
+            borderColor: "red",
             height: 50,
             width: 325,
             borderRadius: 8,

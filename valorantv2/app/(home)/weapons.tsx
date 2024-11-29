@@ -44,7 +44,7 @@ const Weapons = () => {
           placeholder="Search for a weapon..."
           style={{
             backgroundColor: "#fff",
-            borderColor: "#ddd",
+            borderColor: "red",
             height: 50,
             width: 325,
             borderRadius: 8,
