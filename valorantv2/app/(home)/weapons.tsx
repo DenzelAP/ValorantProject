@@ -42,17 +42,7 @@ const Weapons = () => {
           onChangeText={(text) => setFilter(text)}
           value={filter}
           placeholder="Search for a weapon..."
-          style={{
-            backgroundColor: "#fff",
-            borderColor: "red",
-            height: 50,
-            width: 325,
-            borderRadius: 8,
-            padding: 15,
-            marginBottom: 10,
-            borderWidth: 1,
-            elevation: 10,
-          }}
+          style={styles.input}
         />
       </View>
 
@@ -84,7 +74,7 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: "#5A002C",
     borderWidth: 1,
-    borderColor: "red",
+    borderColor: "#ff4655",
     borderRadius: 8,
     marginBottom: 16,
   },
@@ -99,6 +89,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     color: "white",
+  },
+  input: {
+    backgroundColor: "#fff",
+    borderColor: "#ff4655",
+    height: 50,
+    width: 325,
+    borderRadius: 8,
+    padding: 15,
+    marginBottom: 10,
+    borderWidth: 1,
+    elevation: 10,
   },
 });
 

@@ -1,16 +1,21 @@
 import { DataContext } from "@/components/DataProvider";
 import { useLocalSearchParams } from "expo-router";
 import { useContext } from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const CharacterScreen = () => {
   const { uuid } = useLocalSearchParams<{ uuid: string }>();
   const { characters } = useContext(DataContext);
+  const navigation = useNavigation();
 
   const character = characters.find((character) => character.uuid === uuid);
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+        <Text style={styles.backButtonText}>Back</Text>
+      </TouchableOpacity>
       <Text style={styles.title}>{character?.displayName}</Text>
 
       <View style={styles.card}>
@@ -41,6 +46,17 @@ const styles = StyleSheet.create({
     padding: 20,
     gap: 50,
   },
+  backButton: {
+    position: "absolute",
+    top: 50,
+    left: 20,
+    backgroundColor: "#ff4655",
+    padding: 10,
+    borderRadius: 8,
+  },
+  backButtonText: {
+    color: "white",
+  },
   card: {
     backgroundColor: "#fff",
     padding: 20,
@@ -51,7 +67,7 @@ const styles = StyleSheet.create({
     borderColor: "red",
   },
   title: {
-    fontSize: 24,
+    fontSize: 30,
     fontWeight: "bold",
     marginBottom: 10,
     textAlign: "center",
@@ -69,6 +85,7 @@ const styles = StyleSheet.create({
   description: {
     marginTop: 10,
     borderWidth: 1,
+    borderRadius: 8,
     borderColor: "#ddd",
     padding: 10,
   },

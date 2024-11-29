@@ -20,7 +20,11 @@ interface CharacterCardProps {
 const CharacterCard = ({ item }: CharacterCardProps) => {
   const router = useRouter();
   return (
-    <Pressable onPress={() => { router.push(`/${item.uuid}`) }}>
+    <Pressable
+      onPress={() => {
+        router.push(`/${item.uuid}`);
+      }}
+    >
       {({ pressed }) => (
         <View style={[styles.card, { opacity: pressed ? 0.5 : 1 }]}>
           <Text style={styles.characterName}>{item.displayName}</Text>
@@ -53,17 +57,7 @@ const Characters = () => {
           onChangeText={(text) => setFilter(text)}
           value={filter}
           placeholder="Search for an agent..."
-          style={{
-            backgroundColor: "#fff",
-            borderColor: "red",
-            height: 50,
-            width: 325,
-            borderRadius: 8,
-            padding: 15,
-            marginBottom: 10,
-            borderWidth: 1,
-            elevation: 10,
-          }}
+          style={styles.input}
         />
       </View>
 
@@ -98,10 +92,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     margin: 10,
     borderRadius: 10,
-    overflow: 'hidden',
+    overflow: "hidden",
     backgroundColor: "#5A002C",
     borderWidth: 1,
-    borderColor: "red",
+    borderColor: "#ff4655",
     alignItems: "center",
     padding: 16,
     elevation: 4,
@@ -118,6 +112,17 @@ const styles = StyleSheet.create({
     marginTop: 8,
     textAlign: "center",
     color: "white",
+  },
+  input: {
+    backgroundColor: "#fff",
+    borderColor: "#ff4655",
+    height: 50,
+    width: 325,
+    borderRadius: 8,
+    padding: 15,
+    marginBottom: 10,
+    borderWidth: 1,
+    elevation: 10,
   },
 });
 

@@ -2,3 +2,4 @@ questions :
 
 1. Waarom werken mijn fonts niet?
 2. Welke naam moet ik kiezen voor de dynamic paths van weapon?
+3. Back button in de game werkt niet.

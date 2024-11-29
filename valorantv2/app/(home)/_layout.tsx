@@ -11,7 +11,7 @@ const Layout = () => {
                 options={{
                     headerShown: false,
                     tabBarIcon: ({color, size}) => <Entypo name="man" size={size} color={color} />,
-                    tabBarActiveTintColor: "#FF4D4D",
+                    tabBarActiveTintColor: "#ff4655",
                     title: "CHARACTERS", 
                     tabBarActiveBackgroundColor: "black",
                     tabBarInactiveBackgroundColor: "black"
@@ -22,7 +22,7 @@ const Layout = () => {
                 options={{
                     headerShown: false,
                     tabBarIcon: ({color, size}) => <MaterialCommunityIcons name="chemical-weapon" size={size} color={color} />,
-                    tabBarActiveTintColor: "#FF4D4D",
+                    tabBarActiveTintColor: "#ff4655",
                     title: "WEAPONS",
                     tabBarActiveBackgroundColor: "black",
                     tabBarInactiveBackgroundColor: "black"
@@ -33,7 +33,7 @@ const Layout = () => {
                 options={{
                     headerShown: false,
                     tabBarIcon: ({color, size}) => <FontAwesome name="home" size={size} color={color} />,
-                    tabBarActiveTintColor: "#FF4D4D",
+                    tabBarActiveTintColor: "#ff4655",
                     title: "HOME",
                     tabBarActiveBackgroundColor: "black",
                     tabBarInactiveBackgroundColor: "black",

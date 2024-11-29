@@ -9,6 +9,7 @@ import {
   Vibration,
 } from "react-native";
 import { DataContext } from "@/components/DataProvider";
+import { useNavigation } from "@react-navigation/native";
 
 interface Card {
   id: number;
@@ -23,6 +24,8 @@ const MatchingGame: React.FC = () => {
   const [cards, setCards] = useState<Card[]>([]);
   const [flippedCards, setFlippedCards] = useState<number[]>([]);
   const [score, setScore] = useState(0);
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     // Ensure weapons are available before proceeding
@@ -108,8 +111,10 @@ const MatchingGame: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Skin Collector</Text>
-      <Text style={styles.score}>Score: {score}</Text>
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+        <Text style={styles.backButtonText}>Back</Text>
+      </TouchableOpacity>
+      <Text style={styles.header}>Skin Matcher</Text>
       <View style={styles.grid}>
         {cards.map((card, index) => (
           <TouchableOpacity
@@ -132,6 +137,7 @@ const MatchingGame: React.FC = () => {
           </TouchableOpacity>
         ))}
       </View>
+      <Text style={styles.score}>Score: {score}</Text>
       <TouchableOpacity onPress={resetGame} style={styles.resetButton}>
         <Text style={styles.resetText}>Reset Game</Text>
       </TouchableOpacity>
@@ -144,6 +150,18 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     backgroundColor: "#1e1e2f",
+    paddingTop: 50,
+  },
+  backButton: {
+    position: "absolute",
+    top: 50,
+    left: 20,
+    backgroundColor: "#ff4655",
+    padding: 10,
+    borderRadius: 8,
+  },
+  backButtonText: {
+    color: "white",
   },
   header: {
     fontSize: 24,
@@ -156,12 +174,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#ddd",
     textAlign: "center",
-    marginBottom: 20,
+    marginTop: 20,
   },
   grid: {
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "center",
+    marginTop: 20,
   },
   card: {
     width: 80,
@@ -185,7 +204,7 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   resetButton: {
-    marginTop: 20,
+    marginTop: 40,
     padding: 10,
     backgroundColor: "#ff4655",
     borderRadius: 5,
