@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Image,
   Alert,
+  Vibration,
 } from "react-native";
 import { DataContext } from "@/components/DataProvider";
 
@@ -72,6 +73,10 @@ const MatchingGame: React.FC = () => {
         setFlippedCards([]);
       } else {
         setTimeout(() => {
+          Vibration.vibrate(100);
+          setTimeout(() => {
+            Vibration.vibrate(200);
+          }, 100);
           updatedCards[firstIndex].flipped = false;
           updatedCards[secondIndex].flipped = false;
           setCards([...updatedCards]);
