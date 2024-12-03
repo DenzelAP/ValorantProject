@@ -15,14 +15,15 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.cod3nz.valorantv2"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-    "assets" : [
+    "assets": [
       "./assets/fonts/"
     ],
     "plugins": [
@@ -39,6 +40,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "6d1c6756-a594-4f4f-bdc6-1da176213fab"
+      }
     }
   }
 }
