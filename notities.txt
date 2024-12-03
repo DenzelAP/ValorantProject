@@ -10,3 +10,38 @@ AsyncStorage:
 - You store data using key-value pairs. The data is stored on the device’s local storage.
 - Data is persistent across app restarts (unless explicitly removed).
 - It's asynchronous, meaning calls like getItem, setItem, and removeItem don't block the UI thread, but instead use promises or async/await.
+
+Maak een APK voor android
+
+- npm install -g eas-cli
+- eas login (zelfde acc als expo)
+- eas build:configure (copy paste json bestand hieronder in eas.json)
+- eas build --platform android --profile development (android)
+- eas build --platform ios --profile development (ios)
+- scan qr-code die je krijgt na build (kan heel lang duren), deze brengt je naar de website waar je de apk kan installeren
+{
+  "cli": {
+    "version": ">= 13.4.2",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "distribution": "internal",
+      "ios": {
+        "simulator": true
+      },
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "preview": {
+      "distribution": "internal"
+    },
+    "production": {
+      "autoIncrement": true
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}
