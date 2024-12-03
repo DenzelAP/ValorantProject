@@ -1,5 +1,12 @@
-questions :
+Questions
 
 1. Waarom werken mijn fonts niet?
 2. Welke naam moet ik kiezen voor de dynamic paths van weapon?
-3. Back button in de game werkt niet.
+
+
+Notes
+
+AsyncStorage:
+- You store data using key-value pairs. The data is stored on the device’s local storage.
+- Data is persistent across app restarts (unless explicitly removed).
+- It's asynchronous, meaning calls like getItem, setItem, and removeItem don't block the UI thread, but instead use promises or async/await.

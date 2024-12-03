@@ -59,6 +59,12 @@ const Characters = () => {
           placeholder="Search for an agent..."
           style={styles.input}
         />
+
+        <View>
+          <Text style={{ color: "white", textAlign: "center" }}>
+            {filteredCharacters.length} agents found
+          </Text>
+        </View>
       </View>
 
       <FlatList
