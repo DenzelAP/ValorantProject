@@ -23,7 +23,7 @@ interface Card {
 }
 
 const MatchingGame: React.FC = () => {
-  const { weapons } = useContext(DataContext); // Use context inside the component
+  const { weapons } = useContext(DataContext);
   const [cards, setCards] = useState<Card[]>([]);
   const [flippedCards, setFlippedCards] = useState<number[]>([]);
   const [score, setScore] = useState(0);
@@ -79,10 +79,8 @@ const MatchingGame: React.FC = () => {
   // Check if game is completed
   useEffect(() => {
     if (score > 0 && score === cards.length / 2) {
-      setGameCompleted(true); // Mark the game as completed
-      const bonusPoints = Math.ceil(timeLeft * 2);
-      const finalScore = score + bonusPoints;
-      setModalVisible(true); // Show modal for user input
+      setGameCompleted(true);
+      setModalVisible(true); 
     }
   }, [score, cards.length, timeElapsed]);
 

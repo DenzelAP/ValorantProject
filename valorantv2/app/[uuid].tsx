@@ -24,9 +24,6 @@ const CharacterScreen = () => {
             source={{ uri: character?.fullPortrait! }}
             style={styles.image}
           />
-          <Text style={styles.roleTitle}>
-            {character?.role?.displayName}
-          </Text>
         </View>
 
         <View style={styles.description}>
@@ -77,11 +74,6 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
   },
-  roleTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginRight: 10,
-  },
   description: {
     marginTop: 10,
     borderWidth: 1,
@@ -91,6 +83,7 @@ const styles = StyleSheet.create({
   },
   upperCardContainer: {
     flexDirection: "row",
+    justifyContent: "center",
     alignItems: "center",
   }
 });

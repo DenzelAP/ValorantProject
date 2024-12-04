@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TextInput,
   Pressable,
+  TouchableOpacity,
 } from "react-native";
 import { Character } from "@/types";
 import { useContext } from "react";
@@ -44,8 +45,11 @@ const Characters = () => {
 
   const { characters } = useContext(DataContext);
 
+  const router = useRouter();
+
+
   const filteredCharacters = characters.filter((character) =>
-    character.displayName.toLowerCase().includes(filter.toLowerCase())
+    character.displayName.toLowerCase().includes(filter.toLowerCase().trim())
   );
 
   return (
@@ -64,6 +68,15 @@ const Characters = () => {
           <Text style={{ color: "white", textAlign: "center" }}>
             {filteredCharacters.length} agents found
           </Text>
+
+          <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            router.push("/characterCreate");
+          }}
+        >
+          <Text style={styles.buttonText}>Create new character</Text>
+        </TouchableOpacity>
         </View>
       </View>
 
@@ -129,6 +142,18 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderWidth: 1,
     elevation: 10,
+  },
+  button: {
+    backgroundColor: "#ff4655",
+    padding: 10,
+    marginBottom: 10,
+    borderRadius: 5,
+    marginTop: 10,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 16,
+    textAlign: "center",
   },
 });
 
