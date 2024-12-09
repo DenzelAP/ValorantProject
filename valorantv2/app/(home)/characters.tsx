@@ -23,7 +23,7 @@ const CharacterCard = ({ item }: CharacterCardProps) => {
   return (
     <Pressable
       onPress={() => {
-        router.push(`/${item.uuid}`);
+        router.push(`/character/${item.uuid}`);
       }}
     >
       {({ pressed }) => (
@@ -47,10 +47,11 @@ const Characters = () => {
 
   const router = useRouter();
 
-
   const filteredCharacters = characters.filter((character) =>
     character.displayName.toLowerCase().includes(filter.toLowerCase().trim())
   );
+
+  filteredCharacters.splice(9, 1);
 
   return (
     <View style={styles.container}>
@@ -70,13 +71,13 @@ const Characters = () => {
           </Text>
 
           <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            router.push("/characterCreate");
-          }}
-        >
-          <Text style={styles.buttonText}>Create new character</Text>
-        </TouchableOpacity>
+            style={styles.button}
+            onPress={() => {
+              router.push("/characterCreate");
+            }}
+          >
+            <Text style={styles.buttonText}>Create new character</Text>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -109,10 +110,11 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-around",
-    margin: 10,
+    marginHorizontal: 5,
+    marginVertical: 10,
     borderRadius: 10,
     overflow: "hidden",
-    backgroundColor: "#5A002C",
+    backgroundColor: "lightgrey",
     borderWidth: 1,
     borderColor: "#ff4655",
     alignItems: "center",
@@ -130,7 +132,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 8,
     textAlign: "center",
-    color: "white",
+    color: "#ff4655",
   },
   input: {
     backgroundColor: "#fff",

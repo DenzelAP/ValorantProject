@@ -9,7 +9,10 @@ import {
   TouchableOpacity,
   Text,
   Image,
+  Alert,
 } from "react-native";
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from "uuid";
 
 const CharacterCreate = () => {
   const [newCharacter, setNewCharacter] = useState<Character>({
@@ -27,8 +30,13 @@ const CharacterCreate = () => {
   const navigation = useNavigation();
 
   const handleCreateCharacter = () => {
+    // Ensure a fresh UUID is generated right before saving the character
+    const characterWithUUID = { ...newCharacter, uuid: uuidv4() };
+
     if (createCharacter) {
-      createCharacter(newCharacter);
+      createCharacter(characterWithUUID); // Save character with a unique UUID
+      Alert.alert("Character created successfully");
+      navigation.goBack(); // Navigate back to the character list
     }
   };
 
@@ -68,10 +76,11 @@ const CharacterCreate = () => {
           style={styles.input}
         />
       </View>
-
-      <TouchableOpacity style={styles.button} onPress={() => {}}>
-        <Text style={styles.buttonText}>Create new character</Text>
-      </TouchableOpacity>
+      <View>
+        <TouchableOpacity style={styles.button} onPress={handleCreateCharacter}>
+          <Text style={styles.buttonText}>Create new character</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };

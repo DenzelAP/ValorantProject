@@ -6,20 +6,34 @@ import {
   StyleSheet,
   Image,
   TextInput,
+  Pressable,
 } from "react-native";
 import { Weapon } from "@/types";
 import { DataContext } from "@/components/DataProvider";
+import { useRouter } from "expo-router";
 
 interface WeaponCardProps {
   item: Weapon;
 }
 
 const WeaponCard = ({ item }: WeaponCardProps) => {
+  const router = useRouter();
   return (
-    <View style={styles.card}>
-      <Image source={{ uri: item.displayIcon }} style={styles.weaponImage} />
-      <Text style={styles.weaponName}>{item.displayName}</Text>
-    </View>
+    <Pressable
+      onPress={() => {
+        router.push(`/weapon/${item.displayName}`);
+      }}
+    >
+      {({ pressed }) => (
+        <View style={[styles.card, { opacity: pressed ? 0.5 : 1 }]}>
+          <Image
+            source={{ uri: item.displayIcon }}
+            style={styles.weaponImage}
+          />
+          <Text style={styles.weaponName}>{item.displayName}</Text>
+        </View>
+      )}
+    </Pressable>
   );
 };
 
@@ -32,7 +46,6 @@ const Weapons = () => {
     weapon.displayName.toLowerCase().includes(filter.toLowerCase())
   );
 
-  
   return (
     <View style={styles.container}>
       <Text style={styles.title}>SELECT A WEAPON</Text>
@@ -44,6 +57,9 @@ const Weapons = () => {
           placeholder="Search for a weapon..."
           style={styles.input}
         />
+        <Text style={styles.amount}>
+            {filteredWeapons.length} Weapons found
+          </Text>
       </View>
 
       <View>
@@ -72,11 +88,12 @@ const styles = StyleSheet.create({
   },
   card: {
     padding: 16,
-    backgroundColor: "#5A002C",
+    backgroundColor: "lightgrey",
     borderWidth: 1,
     borderColor: "#ff4655",
     borderRadius: 8,
-    marginBottom: 16,
+    marginHorizontal: 3,
+    marginVertical: 10,
   },
   weaponImage: {
     width: 300,
@@ -88,7 +105,7 @@ const styles = StyleSheet.create({
   weaponName: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "white",
+    color: "#ff4655",
   },
   input: {
     backgroundColor: "#fff",
@@ -101,6 +118,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     elevation: 10,
   },
+  amount: {
+    color: "white",
+    textAlign: "center",
+    marginBottom: 16,
+  }
 });
 
 export default Weapons;
