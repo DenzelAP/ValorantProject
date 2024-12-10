@@ -45,7 +45,7 @@ const DataProvider = ({ children }: { children: React.ReactNode }) => {
         "https://valorant-api.com/v1/agents"
       );
       const createdCharactersResponse = await fetch(
-        "https://sampleapis.assimilate.be/data/generic_endpoint_5",
+        "https://sampleapis.assimilate.be/data/generic_endpoint_1",
         {
           method: "GET",
           headers: {
@@ -79,7 +79,7 @@ const DataProvider = ({ children }: { children: React.ReactNode }) => {
       if (!token.token) throw new Error("Failed to fetch token");
 
       const response = await fetch(
-        "https://sampleapis.assimilate.be/data/generic_endpoint_5",
+        "https://sampleapis.assimilate.be/data/generic_endpoint_1",
         {
           method: "POST",
           headers: {
@@ -116,7 +116,7 @@ const DataProvider = ({ children }: { children: React.ReactNode }) => {
 
   //     // Make the PUT request to update the character
   //     const response = await fetch(
-  //       `https://sampleapis.assimilate.be/data/generic_endpoint_5/?uuid=${updatedCharacter.uuid}`,
+  //       `https://sampleapis.assimilate.be/data/generic_endpoint_1/?uuid=${updatedCharacter.uuid}`,
   //       {
   //         method: "PUT",
   //         headers: {
