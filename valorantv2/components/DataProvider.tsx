@@ -8,7 +8,7 @@ export interface DataContext {
   loadCharacters: () => void;
   loadWeapons: () => void;
   createCharacter: (character: Character) => void;
-  updateCharacter: (character: Character) => void;
+  // updateCharacter: (character: Character) => void;
 }
 
 export const DataContext = createContext<DataContext>({
@@ -17,7 +17,7 @@ export const DataContext = createContext<DataContext>({
   loadCharacters: () => {},
   loadWeapons: () => {},
   createCharacter: (character: Character) => {},
-  updateCharacter: (character: Character) => {},
+  // updateCharacter: (character: Character) => {},
 });
 
 const DataProvider = ({ children }: { children: React.ReactNode }) => {
@@ -103,47 +103,47 @@ const DataProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const updateCharacter = async (updatedCharacter: Character) => {
-    try {
-      console.log("Updating character:", updatedCharacter);
+  // const updateCharacter = async (updatedCharacter: Character) => {
+  //   try {
+  //     console.log("Updating character:", updatedCharacter);
 
-      // Fetch the authorization token
-      const tokenResponse = await fetch(
-        "https://sampleapis.assimilate.be/token?email=s150986@ap.be"
-      );
-      const token = await tokenResponse.json();
-      if (!token.token) throw new Error("Failed to fetch token");
+  //     // Fetch the authorization token
+  //     const tokenResponse = await fetch(
+  //       "https://sampleapis.assimilate.be/token?email=s150986@ap.be"
+  //     );
+  //     const token = await tokenResponse.json();
+  //     if (!token.token) throw new Error("Failed to fetch token");
 
-      // Make the PUT request to update the character
-      const response = await fetch(
-        `https://sampleapis.assimilate.be/data/generic_endpoint_5/${updatedCharacter.uuid}`,
-        {
-          method: "PUT",
-          headers: {
-            accept: "application/json",
-            "Content-Type": "application/json",
-            authorization: `Bearer ${token.token}`,
-          },
-          body: JSON.stringify(updatedCharacter),
-        }
-      );
+  //     // Make the PUT request to update the character
+  //     const response = await fetch(
+  //       `https://sampleapis.assimilate.be/data/generic_endpoint_5/?uuid=${updatedCharacter.uuid}`,
+  //       {
+  //         method: "PUT",
+  //         headers: {
+  //           accept: "application/json",
+  //           "Content-Type": "application/json",
+  //           authorization: `Bearer ${token.token}`,
+  //         },
+  //         body: JSON.stringify(updatedCharacter),
+  //       }
+  //     );
 
-      if (!response.ok)
-        throw new Error(`Failed to update character: ${response.status}`);
+  //     if (!response.ok)
+  //       throw new Error(`Failed to update character: ${response.status}`);
 
-      const updatedData = await response.json();
-      console.log("Character updated successfully:", updatedData);
+  //     const updatedData = await response.json();
+  //     console.log("Character updated successfully:", updatedData);
 
-      // Update the state with the new character data
-      setCharacters((prev) =>
-        prev.map((char) =>
-          char.uuid === updatedCharacter.uuid ? updatedData : char
-        )
-      );
-    } catch (err) {
-      console.error("Error in updateCharacter:", err);
-    }
-  };
+  //     // Update the state with the new character data
+  //     setCharacters((prev) =>
+  //       prev.map((char) =>
+  //         char.uuid === updatedCharacter.uuid ? updatedData : char
+  //       )
+  //     );
+  //   } catch (err) {
+  //     console.error("Error in updateCharacter:", err);
+  //   }
+  // };
 
   const loadFonts = async () => {
     await Font.loadAsync({
@@ -165,7 +165,7 @@ const DataProvider = ({ children }: { children: React.ReactNode }) => {
         loadCharacters,
         loadWeapons,
         createCharacter,
-        updateCharacter,
+        // updateCharacter,
       }}
     >
       {children}

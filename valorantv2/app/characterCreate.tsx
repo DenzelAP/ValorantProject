@@ -11,8 +11,9 @@ import {
   Image,
   Alert,
 } from "react-native";
-import 'react-native-get-random-values';
+import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
+import * as ImagePicker from "expo-image-picker";
 
 const CharacterCreate = () => {
   const [newCharacter, setNewCharacter] = useState<Character>({
@@ -40,6 +41,53 @@ const CharacterCreate = () => {
     }
   };
 
+  const pickImage = async () => {
+    let result = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (result.granted === false) {
+      alert("Permission to access gallery is required!");
+      return;
+    }
+
+    let pickerResult = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!pickerResult.canceled) {
+      setNewCharacter({
+        ...newCharacter,
+        displayIcon: pickerResult.assets[0].uri,
+      });
+    } else {
+      alert("Image selection cancelled");
+    }
+  };
+
+  const takePhoto = async () => {
+    let result = await ImagePicker.requestCameraPermissionsAsync();
+    if (result.granted === false) {
+      alert("Permission to access camera is required!");
+      return;
+    }
+
+    let pickerResult = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!pickerResult.canceled) {
+      setNewCharacter({
+        ...newCharacter,
+        displayIcon: pickerResult.assets[0].uri,
+      });
+    } else {
+      alert("Image selection cancelled");
+    }
+  };
+
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -50,12 +98,29 @@ const CharacterCreate = () => {
       </TouchableOpacity>
 
       <View style={styles.editContainer}>
-        <Image
-          style={styles.image}
-          source={{
-            uri: "https://cdn.oneesports.gg/cdn-data/wp-content/uploads/2020/12/Valorant_UnknownAgent.jpg",
-          }}
-        />
+        {newCharacter.displayIcon ? (
+          <Image
+            source={{ uri: newCharacter.displayIcon }}
+            style={{ width: 200, height: 200 }}
+          />
+        ) : (
+          <Image
+            style={styles.image}
+            source={{
+              uri: "https://cdn.oneesports.gg/cdn-data/wp-content/uploads/2020/12/Valorant_UnknownAgent.jpg",
+            }}
+          />
+        )}
+
+        <View style={styles.imageButtons}>
+        <TouchableOpacity style={styles.button} onPress={pickImage}>
+          <Text style={styles.buttonText}>Pick from gallery</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.button} onPress={takePhoto}>
+          <Text style={styles.buttonText}>Take a photo</Text>
+        </TouchableOpacity>
+        </View>
 
         <Text style={styles.inputDescription}>Display Name</Text>
         <TextInput
@@ -138,6 +203,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 10,
   },
+  imageButtons: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: 275,
+    marginBottom: 20,
+    marginTop: 20,
+  }
 });
 
 export default CharacterCreate;

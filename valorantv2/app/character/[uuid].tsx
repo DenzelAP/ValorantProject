@@ -14,7 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const CharacterScreen = () => {
   const { uuid } = useLocalSearchParams<{ uuid: string }>();
-  const { characters, updateCharacter } = useContext(DataContext);
+  const { characters } = useContext(DataContext); // updateCharacter weg gelaten
   const navigation = useNavigation();
 
   const character = characters.find((character) => character.uuid === uuid);
@@ -22,6 +22,7 @@ const CharacterScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [displayName, setDisplayName] = useState(character?.displayName || "");
   const [description, setDescription] = useState(character?.description || "");
+  const [imageUri, setImageUri] = useState(character!.displayIcon);
 
   // Handle the case where the character is not found (maybe show a 404 or similar message)
   if (!character) {
@@ -32,12 +33,20 @@ const CharacterScreen = () => {
     );
   }
 
-  const handleUpdate = () => {
-    if (updateCharacter) {
-      updateCharacter({ ...character, displayName, description });
-      setModalVisible(false);
-    }
+  const toggleImage = () => {
+    setImageUri((prevUri) =>
+      prevUri === character.displayIcon
+        ? character.fullPortrait!
+        : character.displayIcon
+    );
   };
+
+  // const handleUpdate = () => {
+  //   if (updateCharacter) {
+  //     updateCharacter({ ...character, displayName, description });
+  //     setModalVisible(false);
+  //   }
+  // };
 
   return (
     <View style={styles.container}>
@@ -51,10 +60,12 @@ const CharacterScreen = () => {
 
       <View style={styles.card}>
         <View style={styles.upperCardContainer}>
-          <Image
-            source={{ uri: character?.fullPortrait! }}
-            style={styles.image}
-          />
+          <TouchableOpacity onPress={toggleImage}>
+            <Image
+              source={{ uri: imageUri }}
+              style={{ width: 200, height: 200 }}
+            />
+          </TouchableOpacity>
         </View>
 
         <View style={styles.description}>
@@ -91,7 +102,7 @@ const CharacterScreen = () => {
               <View style={styles.buttons}>
                 <TouchableOpacity
                   style={styles.updateButton}
-                  onPress={handleUpdate}
+                  onPress={() => {}}
                 >
                   <Text style={styles.buttonText}>Update</Text>
                 </TouchableOpacity>
@@ -201,7 +212,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     gap: 10,
-  }
+  },
 });
 
 export default CharacterScreen;
