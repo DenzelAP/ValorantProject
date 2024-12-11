@@ -9,9 +9,18 @@ export interface Character {
   description: string;
   displayIcon: string;
   fullPortrait: null | string;
+  role: Role | null;
 }
 
-export enum DisplayName {
+export interface Role {
+  uuid: string;
+  displayName: RoleName;
+  description: string;
+  displayIcon: string;
+  assetPath: string;
+}
+
+export enum RoleName {
   Controller = "Controller",
   Duelist = "Duelist",
   Initiator = "Initiator",

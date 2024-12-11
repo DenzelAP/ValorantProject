@@ -43,7 +43,7 @@ const CharacterCard = ({ item }: CharacterCardProps) => {
 const Characters = () => {
   const [filter, setFilter] = useState("");
 
-  const { characters } = useContext(DataContext);
+  const { characters, loading } = useContext(DataContext);
 
   const router = useRouter();
 
@@ -51,7 +51,15 @@ const Characters = () => {
     character.displayName.toLowerCase().includes(filter.toLowerCase().trim())
   );
 
-  filteredCharacters.splice(9, 1);
+  filteredCharacters.splice(9, 1); // Remove duplicate agent
+
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>Loading...</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -98,10 +106,10 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: "bold",
     marginBottom: 16,
     textAlign: "center",
     color: "white",
+    fontFamily: "valorant-font",
   },
   listContainer: {
     paddingBottom: 16,
@@ -127,9 +135,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   characterName: {
-    fontFamily: "valorant",
+    fontFamily: "valorant-font",
     fontSize: 18,
-    fontWeight: "bold",
     marginTop: 8,
     textAlign: "center",
     color: "#ff4655",
@@ -153,6 +160,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   buttonText: {
+    fontFamily: "valorant-font",
     color: "white",
     fontSize: 16,
     textAlign: "center",

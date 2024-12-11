@@ -28,7 +28,7 @@ const WeaponsScreen = () => {
           style={styles.weaponImage}
         />
         <Text style={styles.price}>Price</Text>
-        <Text style={styles.price}>{weapon?.shopData?.cost}</Text>
+        <Text style={styles.price}>{weapon?.shopData?.cost ?? "0"}</Text>
       </View>
     </View>
   );
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   },
   weaponName: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontFamily: "valorant-font",
     color: "#ff4655",
   },
   card: {

@@ -8,7 +8,6 @@ import {
   Image,
   TouchableOpacity,
   Modal,
-  TextInput,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -20,11 +19,8 @@ const CharacterScreen = () => {
   const character = characters.find((character) => character.uuid === uuid);
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [displayName, setDisplayName] = useState(character?.displayName || "");
-  const [description, setDescription] = useState(character?.description || "");
   const [imageUri, setImageUri] = useState(character!.displayIcon);
 
-  // Handle the case where the character is not found (maybe show a 404 or similar message)
   if (!character) {
     return (
       <View style={styles.container}>
@@ -40,13 +36,6 @@ const CharacterScreen = () => {
         : character.displayIcon
     );
   };
-
-  // const handleUpdate = () => {
-  //   if (updateCharacter) {
-  //     updateCharacter({ ...character, displayName, description });
-  //     setModalVisible(false);
-  //   }
-  // };
 
   return (
     <View style={styles.container}>
@@ -76,7 +65,7 @@ const CharacterScreen = () => {
           style={styles.updateButton}
           onPress={() => setModalVisible(true)}
         >
-          <Text style={styles.buttonText}>Update</Text>
+          <Text style={styles.buttonText}>More details</Text>
         </TouchableOpacity>
 
         <Modal
@@ -87,30 +76,18 @@ const CharacterScreen = () => {
         >
           <View style={styles.modalContainer}>
             <View style={styles.modalView}>
-              <TextInput
-                style={styles.input}
-                placeholder="Name"
-                value={displayName}
-                onChangeText={setDisplayName}
-              />
-              <TextInput
-                style={styles.input}
-                placeholder="Description"
-                value={description}
-                onChangeText={setDescription}
-              />
+              <Text style={styles.modalTitle}>
+                Role - {character.role?.displayName}
+              </Text>
+              <Text style={styles.modalDescription}>
+                {character.role?.description}
+              </Text>
               <View style={styles.buttons}>
-                <TouchableOpacity
-                  style={styles.updateButton}
-                  onPress={() => {}}
-                >
-                  <Text style={styles.buttonText}>Update</Text>
-                </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.updateButton}
                   onPress={() => setModalVisible(false)}
                 >
-                  <Text style={styles.buttonText}>Cancel</Text>
+                  <Text style={styles.buttonText}>Back</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -152,7 +129,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    fontWeight: "bold",
+    fontFamily: "valorant-font",
     marginBottom: 10,
     textAlign: "center",
     color: "white",
@@ -192,13 +169,23 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.5)",
   },
   modalView: {
-    width: 300,
+    width: 275,
     padding: 20,
     backgroundColor: "white",
     borderRadius: 10,
     alignItems: "center",
     borderWidth: 1,
     borderColor: "#ff4655",
+  },
+  modalTitle: {
+    fontSize: 24,
+    fontFamily: "valorant-font",
+    marginBottom: 10,
+    color: "#ff4655",
+  },
+  modalDescription: {
+    marginVertical: 20,
+    color: "black",
   },
   input: {
     width: "100%",

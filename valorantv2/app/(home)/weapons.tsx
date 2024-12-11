@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import {
   View,
   FlatList,
@@ -58,11 +58,11 @@ const Weapons = () => {
           style={styles.input}
         />
         <Text style={styles.amount}>
-            {filteredWeapons.length} Weapons found
-          </Text>
+          {filteredWeapons.length} Weapons found
+        </Text>
       </View>
 
-      <View>
+      <View style={{ flex: 1 }}>
         <FlatList
           data={filteredWeapons}
           renderItem={({ item }) => <WeaponCard item={item} />}
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontFamily: "valorant-font",
     textAlign: "center",
     color: "white",
     marginBottom: 16,
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
   },
   weaponName: {
     fontSize: 16,
-    fontWeight: "bold",
+    fontFamily: "valorant-font",
     color: "#ff4655",
   },
   input: {
@@ -121,8 +121,8 @@ const styles = StyleSheet.create({
   amount: {
     color: "white",
     textAlign: "center",
-    marginBottom: 16,
-  }
+    marginBottom: 5,
+  },
 });
 
 export default Weapons;

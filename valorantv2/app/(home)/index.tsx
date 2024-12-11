@@ -43,10 +43,10 @@ const Home = () => {
             router.push("/matchingGame");
           }}
         >
-          <Text style={styles.buttonText}>Start Game</Text>
+          <Text style={styles.buttonText}>PLAY</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={showHighscores}>
-          <Text style={styles.buttonText}>Show Highscores</Text>
+          <Text style={styles.buttonText}>SHOw HIGHSCORES</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   buttonText: {
+    fontFamily: "valorant-font",
     color: "white",
     fontSize: 16,
     textAlign: "center",
