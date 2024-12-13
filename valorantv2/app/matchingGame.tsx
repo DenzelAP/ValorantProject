@@ -44,18 +44,19 @@ const MatchingGame: React.FC = () => {
     }
 
     // Prepare the game deck using weapon from context
-    const weaponCards = weapons.map((weapon, index) => ({
-      id: index,
-      name: weapon.displayName, // Use weapon's name
-      image: weapon.displayIcon || "", // Use weapon's image
-      flipped: false,
-      matched: false,
-    }))
-    .slice(0, 6); // Limit the number of cards to 6
+    const weaponCards = weapons
+      .map((weapon, index) => ({
+        id: index,
+        name: weapon.displayName, // Use weapon's name
+        image: weapon.displayIcon || "", // Use weapon's image
+        flipped: false,
+        matched: false,
+      }))
+      .slice(0, 6); // Limit the number of cards to 6
 
     const deck = [...weaponCards, ...weaponCards] // Duplicate the cards to create pairs
       .map((card) => ({ ...card, flipped: false, matched: false })) // Reset flipped and matched status
-      .sort(() => Math.random() - 0.5) // Shuffle the deck
+      .sort(() => Math.random() - 0.5); // Shuffle the deck
 
     setCards(deck);
   }, [weapons]);
@@ -97,23 +98,25 @@ const MatchingGame: React.FC = () => {
       cards[index].matched ||
       flippedCards.length === 2
     )
-      return;
+      return; // Ignore if card is already flipped, matched or two cards are already flipped
 
     const updatedCards = [...cards];
     updatedCards[index].flipped = true;
     setCards(updatedCards);
-    setFlippedCards((prev) => [...prev, index]);
+    setFlippedCards((prev) => [...prev, index]); // Add the flipped card to the list of flipped cards
 
     if (flippedCards.length === 1) {
-      const firstIndex = flippedCards[0];
-      const secondIndex = index;
+      const firstIndex = flippedCards[0]; // Get the index of the first flipped card
+      const secondIndex = index; // Get the index of the second flipped card
 
       if (cards[firstIndex].id === cards[secondIndex].id) {
+        // Check if the two flipped cards match
         updatedCards[firstIndex].matched = true;
         updatedCards[secondIndex].matched = true;
         setScore((prev) => prev + 1);
         setFlippedCards([]);
       } else {
+        // If the two flipped cards do not match
         setTimeout(() => {
           Vibration.vibrate(100);
           setTimeout(() => {
@@ -134,17 +137,19 @@ const MatchingGame: React.FC = () => {
     setTimeElapsed(0);
     setScore(0);
 
-    const weaponCards = weapons.map((weapon, index) => ({
-      id: index,
-      name: weapon.displayName,
-      image: weapon.displayIcon || "",
-      flipped: false,
-      matched: false,
-    })).slice(0, 6);
+    const weaponCards = weapons
+      .map((weapon, index) => ({
+        id: index,
+        name: weapon.displayName,
+        image: weapon.displayIcon || "",
+        flipped: false,
+        matched: false,
+      }))
+      .slice(0, 6);
 
     const deck = [...weaponCards, ...weaponCards]
       .map((card) => ({ ...card, flipped: false, matched: false }))
-      .sort(() => Math.random() - 0.5)
+      .sort(() => Math.random() - 0.5);
 
     setCards(deck);
     setFlippedCards([]);
@@ -168,15 +173,10 @@ const MatchingGame: React.FC = () => {
     }
   };
 
-  const handlePlayAgain = () => {
-    setModalVisible(false);
-    resetGame();
-  };
-
   const handleBack = () => {
     setModalVisible(false);
     navigation.goBack();
-  }
+  };
 
   return (
     <View style={styles.container}>

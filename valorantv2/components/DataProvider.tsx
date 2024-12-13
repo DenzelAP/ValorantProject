@@ -19,23 +19,23 @@ export const DataContext = createContext<DataContext>({
   createCharacter: (character: Character) => {},
 });
 
+const fetchToken = async () => {
+  try {
+    const tokenResponse = await fetch(
+      "https://sampleapis.assimilate.be/token?email=s150986@ap.be"
+    );
+    const token = await tokenResponse.json();
+    if (!token.token) throw new Error("Failed to fetch token");
+    return token;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const [characters, setCharacters] = useState<Character[]>([]);
   const [weapons, setWeapons] = useState<Weapon[]>([]);
   const [loading, setLoading] = useState(false);
-
-  const fetchToken = async () => {
-    try {
-      const tokenResponse = await fetch(
-        "https://sampleapis.assimilate.be/token?email=s150986@ap.be"
-      );
-      const token = await tokenResponse.json();
-      if (!token.token) throw new Error("Failed to fetch token");
-      return token;
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const loadWeapons = async () => {
     setLoading(true);
