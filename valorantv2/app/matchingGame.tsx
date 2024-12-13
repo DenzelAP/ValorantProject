@@ -33,34 +33,30 @@ const MatchingGame: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [playerName, setPlayerName] = useState("");
 
-  const SKINS_START = 76;
-  const SKINS_END = 82;
-
   const navigation = useNavigation();
 
   // Prepare the game deck
   useEffect(() => {
     // Ensure weapons are available before proceeding
     if (!weapons || weapons.length === 0) {
-      Alert.alert("No skins available");
+      Alert.alert("No weapons available");
       return;
     }
 
-    // Prepare the game deck using weapon skins from context
-    const skins = weapons
-      .flatMap((weapon) => weapon.skins)
-      .slice(SKINS_START, SKINS_END)
-      .map((skin, index) => ({
-        id: index,
-        name: skin.displayName,
-        image: skin.displayIcon || "", // Ensure valid URI or fallback to empty string
-        flipped: false,
-        matched: false,
-      }));
+    // Prepare the game deck using weapon from context
+    const weaponCards = weapons.map((weapon, index) => ({
+      id: index,
+      name: weapon.displayName, // Use weapon's name
+      image: weapon.displayIcon || "", // Use weapon's image
+      flipped: false,
+      matched: false,
+    }))
+    .slice(0, 6); // Limit the number of cards to 6
 
-    const deck = [...skins, ...skins]
-      .map((card) => ({ ...card, flipped: false, matched: false }))
-      .sort(() => Math.random() - 0.5);
+    const deck = [...weaponCards, ...weaponCards] // Duplicate the cards to create pairs
+      .map((card) => ({ ...card, flipped: false, matched: false })) // Reset flipped and matched status
+      .sort(() => Math.random() - 0.5) // Shuffle the deck
+
     setCards(deck);
   }, [weapons]);
 
@@ -80,7 +76,7 @@ const MatchingGame: React.FC = () => {
   useEffect(() => {
     if (score > 0 && score === cards.length / 2) {
       setGameCompleted(true);
-      setModalVisible(true); 
+      setModalVisible(true);
     }
   }, [score, cards.length, timeElapsed]);
 
@@ -137,20 +133,19 @@ const MatchingGame: React.FC = () => {
     setTimeLeft(60);
     setTimeElapsed(0);
     setScore(0);
-    const skins = weapons
-      .flatMap((weapon) => weapon.skins)
-      .slice(SKINS_START, SKINS_END)
-      .map((skin, index) => ({
-        id: index,
-        name: skin.displayName,
-        image: skin.displayIcon || "",
-        flipped: false,
-        matched: false,
-      }));
 
-    const deck = [...skins, ...skins]
+    const weaponCards = weapons.map((weapon, index) => ({
+      id: index,
+      name: weapon.displayName,
+      image: weapon.displayIcon || "",
+      flipped: false,
+      matched: false,
+    })).slice(0, 6);
+
+    const deck = [...weaponCards, ...weaponCards]
       .map((card) => ({ ...card, flipped: false, matched: false }))
-      .sort(() => Math.random() - 0.5);
+      .sort(() => Math.random() - 0.5)
+
     setCards(deck);
     setFlippedCards([]);
   };
@@ -177,6 +172,11 @@ const MatchingGame: React.FC = () => {
     setModalVisible(false);
     resetGame();
   };
+
+  const handleBack = () => {
+    setModalVisible(false);
+    navigation.goBack();
+  }
 
   return (
     <View style={styles.container}>
@@ -205,9 +205,9 @@ const MatchingGame: React.FC = () => {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.playAgainButton}
-                onPress={handlePlayAgain}
+                onPress={handleBack}
               >
-                <Text style={styles.playAgainButtonText}>Play Again</Text>
+                <Text style={styles.playAgainButtonText}>Go back</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -219,7 +219,7 @@ const MatchingGame: React.FC = () => {
       >
         <Text style={styles.backButtonText}>Back</Text>
       </TouchableOpacity>
-      <Text style={styles.header}>Skin Matcher</Text>
+      <Text style={styles.header}>Weapon Matcher</Text>
       <Text style={styles.timer}>Time Left: {timeLeft}</Text>
       <View style={styles.grid}>
         {cards.map((card, index) => (
@@ -312,13 +312,13 @@ const styles = StyleSheet.create({
   },
   playAgainButton: {
     backgroundColor: "#ff4655",
-    paddingVertical: 10, // Use paddingVertical for equal top and bottom padding
-    paddingHorizontal: 20, // Optional: Adjust horizontal padding if necessary
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     borderRadius: 5,
     marginTop: 10,
     height: 40,
-    justifyContent: "center", // Ensures text is vertically centered
-    alignItems: "center", // Ensures text is horizontally centered
+    justifyContent: "center",
+    alignItems: "center",
   },
   playAgainButtonText: {
     color: "#fff",
@@ -378,7 +378,7 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   image: {
-    width: 60,
+    width: 75,
     height: 80,
     resizeMode: "contain",
   },

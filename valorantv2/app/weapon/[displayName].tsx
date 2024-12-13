@@ -27,8 +27,18 @@ const WeaponsScreen = () => {
           source={{ uri: weapon!.displayIcon }}
           style={styles.weaponImage}
         />
-        <Text style={styles.price}>Price</Text>
-        <Text style={styles.price}>{weapon?.shopData?.cost ?? "0"}</Text>
+        <View style={styles.detailsContainer}>
+          <View>
+            <Text style={styles.detailsHeader}>Category</Text>
+            <Text style={styles.details}>
+              {weapon?.shopData?.category ?? ""}
+            </Text>
+          </View>
+          <View>
+            <Text style={styles.detailsHeader}>Price</Text>
+            <Text style={styles.details}>{weapon?.shopData?.cost ?? "0"}</Text>
+          </View>
+        </View>
       </View>
     </View>
   );
@@ -65,9 +75,9 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     resizeMode: "contain",
   },
-  price: {
+  details: {
     fontSize: 16,
-    fontWeight: "300",
+    fontWeight: "200",
     color: "black",
   },
   backButton: {
@@ -80,6 +90,16 @@ const styles = StyleSheet.create({
   },
   backButtonText: {
     color: "white",
+  },
+  detailsContainer: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    gap: 16,
+    marginTop: 16,
+  },
+  detailsHeader: {
+    fontSize: 16,
+    color: "#ff4655",
   },
 });
 

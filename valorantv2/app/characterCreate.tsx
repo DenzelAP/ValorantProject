@@ -1,5 +1,5 @@
 import { DataContext } from "@/components/DataProvider";
-import { Character } from "@/types";
+import { Character, RoleName } from "@/types";
 import { useNavigation } from "@react-navigation/native";
 import { useContext, useState } from "react";
 import {
@@ -14,6 +14,7 @@ import {
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
 import * as ImagePicker from "expo-image-picker";
+import { Picker } from "@react-native-picker/picker";
 
 const CharacterCreate = () => {
   const [newCharacter, setNewCharacter] = useState<Character>({
@@ -24,9 +25,10 @@ const CharacterCreate = () => {
     description: "",
     fullPortrait:
       "https://cdn.oneesports.gg/cdn-data/wp-content/uploads/2020/12/Valorant_UnknownAgent.jpg",
+    role: null,
   });
 
-  const { createCharacter } = useContext(DataContext);
+  const { characters, createCharacter } = useContext(DataContext);
 
   const navigation = useNavigation();
 
@@ -88,6 +90,13 @@ const CharacterCreate = () => {
     }
   };
 
+  const roles = [
+    { id: 1, name: RoleName.Controller },
+    { id: 2, name: RoleName.Duelist },
+    { id: 3, name: RoleName.Initiator },
+    { id: 4, name: RoleName.Sentinel },
+  ];
+
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -113,13 +122,13 @@ const CharacterCreate = () => {
         )}
 
         <View style={styles.imageButtons}>
-        <TouchableOpacity style={styles.button} onPress={pickImage}>
-          <Text style={styles.buttonText}>Pick from gallery</Text>
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={pickImage}>
+            <Text style={styles.buttonText}>Pick from gallery</Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button} onPress={takePhoto}>
-          <Text style={styles.buttonText}>Take a photo</Text>
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={takePhoto}>
+            <Text style={styles.buttonText}>Take a photo</Text>
+          </TouchableOpacity>
         </View>
 
         <Text style={styles.inputDescription}>Display Name</Text>
@@ -140,6 +149,22 @@ const CharacterCreate = () => {
           placeholder="Character Description"
           style={styles.input}
         />
+
+        <Text style={styles.inputDescription}>Role</Text>
+        <View style={styles.pickerContainer}>
+          <Picker
+            selectedValue={newCharacter.role}
+            onValueChange={(itemValue) =>
+              setNewCharacter({ ...newCharacter, role: itemValue })
+            }
+            style={styles.picker}
+            itemStyle={styles.pickerItem}
+          >
+            {roles.map((role) => (
+              <Picker.Item key={role.id} label={role.name} value={role.name} />
+            ))}
+          </Picker>
+        </View>
       </View>
       <View>
         <TouchableOpacity style={styles.button} onPress={handleCreateCharacter}>
@@ -209,7 +234,26 @@ const styles = StyleSheet.create({
     width: 275,
     marginBottom: 20,
     marginTop: 20,
-  }
+  },
+  picker: {
+    height: 50,
+    width: 325,
+    borderRadius: 8,
+    padding: 15,
+    marginBottom: 10,
+    borderWidth: 1,
+  },
+  pickerContainer: {
+    backgroundColor: "#fff",
+    borderColor: "#ff4655",
+    borderWidth: 1,
+    borderRadius: 8,
+    marginBottom: 16,
+    elevation: 10,
+  },
+  pickerItem: {
+    fontWeight: 300,
+  },
 });
 
 export default CharacterCreate;

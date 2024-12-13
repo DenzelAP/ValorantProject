@@ -24,6 +24,19 @@ const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const [weapons, setWeapons] = useState<Weapon[]>([]);
   const [loading, setLoading] = useState(false);
 
+  const fetchToken = async () => {
+    try {
+      const tokenResponse = await fetch(
+        "https://sampleapis.assimilate.be/token?email=s150986@ap.be"
+      );
+      const token = await tokenResponse.json();
+      if (!token.token) throw new Error("Failed to fetch token");
+      return token;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const loadWeapons = async () => {
     setLoading(true);
     try {
@@ -40,10 +53,7 @@ const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const loadCharacters = async () => {
     setLoading(true);
     try {
-      const tokenResponse = await fetch(
-        "https://sampleapis.assimilate.be/token?email=s150986@ap.be"
-      );
-      const token = await tokenResponse.json();
+      const token = await fetchToken();
 
       const charactersResponse = await fetch(
         "https://valorant-api.com/v1/agents"
@@ -60,13 +70,13 @@ const DataProvider = ({ children }: { children: React.ReactNode }) => {
         }
       );
 
-      const characterData = await charactersResponse.json();
-      const createdCharactersData = await createdCharactersResponse.json();
+      const characterData = await charactersResponse.json(); // This is the data from the Valorant API
+      const createdCharactersData = await createdCharactersResponse.json(); // This is the data from the generic endpoint
 
       setCharacters([
         ...characterData.data,
         ...(createdCharactersData ? createdCharactersData : []),
-      ]);
+      ]); // Merge the two arrays of characters together
     } catch (err) {
       console.error(err);
     } finally {
@@ -78,11 +88,7 @@ const DataProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       console.log("Creating character:", character);
 
-      const tokenResponse = await fetch(
-        "https://sampleapis.assimilate.be/token?email=s150986@ap.be"
-      );
-      const token = await tokenResponse.json();
-      if (!token.token) throw new Error("Failed to fetch token");
+      const token = await fetchToken();
 
       const response = await fetch(
         "https://sampleapis.assimilate.be/data/generic_endpoint_1",

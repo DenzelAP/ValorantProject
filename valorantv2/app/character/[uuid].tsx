@@ -13,7 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const CharacterScreen = () => {
   const { uuid } = useLocalSearchParams<{ uuid: string }>();
-  const { characters } = useContext(DataContext); // updateCharacter weg gelaten
+  const { characters } = useContext(DataContext);
   const navigation = useNavigation();
 
   const character = characters.find((character) => character.uuid === uuid);
@@ -77,10 +77,10 @@ const CharacterScreen = () => {
           <View style={styles.modalContainer}>
             <View style={styles.modalView}>
               <Text style={styles.modalTitle}>
-                Role - {character.role?.displayName}
+                {character.role?.displayName ?? "New character"}
               </Text>
               <Text style={styles.modalDescription}>
-                {character.role?.description}
+                {character.role?.description ?? character.description}
               </Text>
               <View style={styles.buttons}>
                 <TouchableOpacity

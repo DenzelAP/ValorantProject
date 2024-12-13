@@ -25,7 +25,6 @@ export enum RoleName {
   Duelist = "Duelist",
   Initiator = "Initiator",
   Sentinel = "Sentinel",
-  Unassigned = "Unassigned",
 }
 
 export interface WeaponsData {
@@ -42,7 +41,6 @@ export interface Weapon {
   killStreamIcon: string;
   assetPath: string;
   shopData: ShopData | null;
-  skins: Skin[];
 }
 
 export interface ShopData {
@@ -54,15 +52,5 @@ export interface ShopData {
   image: null;
   newImage: string;
   newImage2: null;
-  assetPath: string;
-}
-
-export interface Skin {
-  uuid: string;
-  displayName: string;
-  themeUuid: string;
-  contentTierUuid: null | string;
-  displayIcon: null | string;
-  wallpaper: null | string;
   assetPath: string;
 }
