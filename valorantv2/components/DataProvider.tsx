@@ -59,7 +59,7 @@ const DataProvider = ({ children }: { children: React.ReactNode }) => {
         "https://valorant-api.com/v1/agents"
       );
       const createdCharactersResponse = await fetch(
-        "https://sampleapis.assimilate.be/data/generic_endpoint_1",
+        "https://sampleapis.assimilate.be/data/generic_endpoint_2",
         {
           method: "GET",
           headers: {
@@ -91,7 +91,7 @@ const DataProvider = ({ children }: { children: React.ReactNode }) => {
       const token = await fetchToken();
 
       const response = await fetch(
-        "https://sampleapis.assimilate.be/data/generic_endpoint_1",
+        "https://sampleapis.assimilate.be/data/generic_endpoint_2",
         {
           method: "POST",
           headers: {

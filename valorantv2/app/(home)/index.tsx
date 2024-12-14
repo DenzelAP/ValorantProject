@@ -16,7 +16,9 @@ const Home = () => {
     try {
       const existingScores = await AsyncStorage.getItem("highscores");
       const highscores = existingScores ? JSON.parse(existingScores) : [];
-      highscores.sort((a: { score: number }, b: { score: number }) => b.score - a.score); // Sort highscores in descending order to show the highest score first
+      highscores.sort(
+        (a: { score: number }, b: { score: number }) => b.score - a.score
+      ); // Sort highscores in descending order to show the highest score first
       const scoresMessage = highscores
         .map(
           (score: { name: string; score: number }, index: number) =>

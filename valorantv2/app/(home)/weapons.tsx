@@ -1,41 +1,8 @@
 import { useContext, useState } from "react";
-import {
-  View,
-  FlatList,
-  Text,
-  StyleSheet,
-  Image,
-  TextInput,
-  Pressable,
-} from "react-native";
-import { Weapon } from "@/types";
+import { View, FlatList, Text, StyleSheet } from "react-native";
 import { DataContext } from "@/components/DataProvider";
-import { useRouter } from "expo-router";
-
-interface WeaponCardProps {
-  item: Weapon;
-}
-
-const WeaponCard = ({ item }: WeaponCardProps) => {
-  const router = useRouter();
-  return (
-    <Pressable
-      onPress={() => {
-        router.push(`/weapon/${item.displayName}`);
-      }}
-    >
-      {({ pressed }) => (
-        <View style={[styles.card, { opacity: pressed ? 0.5 : 1 }]}>
-          <Image
-            source={{ uri: item.displayIcon }}
-            style={styles.weaponImage}
-          />
-          <Text style={styles.weaponName}>{item.displayName}</Text>
-        </View>
-      )}
-    </Pressable>
-  );
-};
+import FilterInput from "@/components/FilterInput";
+import WeaponCard from "@/components/WeaponCard";
 
 const Weapons = () => {
   const [filter, setFilter] = useState("");
@@ -51,11 +18,10 @@ const Weapons = () => {
       <Text style={styles.title}>SELECT A WEAPON</Text>
 
       <View>
-        <TextInput
-          onChangeText={(text) => setFilter(text)}
-          value={filter}
+        <FilterInput
+          filter={filter}
+          onChangeText={setFilter}
           placeholder="Search for a weapon..."
-          style={styles.input}
         />
         <Text style={styles.amount}>
           {filteredWeapons.length} Weapons found
@@ -85,38 +51,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "white",
     marginBottom: 16,
-  },
-  card: {
-    padding: 16,
-    backgroundColor: "lightgrey",
-    borderWidth: 1,
-    borderColor: "#ff4655",
-    borderRadius: 8,
-    marginHorizontal: 3,
-    marginVertical: 10,
-  },
-  weaponImage: {
-    width: 300,
-    height: 100,
-    borderRadius: 8,
-    marginBottom: 8,
-    resizeMode: "contain",
-  },
-  weaponName: {
-    fontSize: 16,
-    fontFamily: "valorant-font",
-    color: "#ff4655",
-  },
-  input: {
-    backgroundColor: "#fff",
-    borderColor: "#ff4655",
-    height: 50,
-    width: 325,
-    borderRadius: 8,
-    padding: 15,
-    marginBottom: 10,
-    borderWidth: 1,
-    elevation: 10,
   },
   amount: {
     color: "white",

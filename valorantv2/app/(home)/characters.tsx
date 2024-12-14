@@ -3,42 +3,14 @@ import {
   View,
   Text,
   FlatList,
-  Image,
   StyleSheet,
-  TextInput,
-  Pressable,
   TouchableOpacity,
 } from "react-native";
-import { Character } from "@/types";
 import { useContext } from "react";
 import { DataContext } from "@/components/DataProvider";
 import { useRouter } from "expo-router";
-
-interface CharacterCardProps {
-  item: Character;
-}
-
-const CharacterCard = ({ item }: CharacterCardProps) => {
-  const router = useRouter();
-  return (
-    <Pressable
-      onPress={() => {
-        router.push(`/character/${item.uuid}`);
-      }}
-    >
-      {({ pressed }) => (
-        <View style={[styles.card, { opacity: pressed ? 0.5 : 1 }]}>
-          <Text style={styles.characterName}>{item.displayName}</Text>
-          <Image
-            source={{ uri: item.displayIcon }}
-            style={styles.characterImage}
-            resizeMode="cover"
-          />
-        </View>
-      )}
-    </Pressable>
-  );
-};
+import FilterInput from "@/components/FilterInput";
+import CharacterCard from "@/components/CharacterCard";
 
 const Characters = () => {
   const [filter, setFilter] = useState("");
@@ -66,11 +38,10 @@ const Characters = () => {
       <Text style={styles.title}>SELECT AN AGENT</Text>
 
       <View>
-        <TextInput
-          onChangeText={(text) => setFilter(text)}
-          value={filter}
+        <FilterInput
+          filter={filter}
+          onChangeText={setFilter}
           placeholder="Search for an agent..."
-          style={styles.input}
         />
 
         <View>
@@ -113,33 +84,6 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     paddingBottom: 16,
-  },
-  card: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginHorizontal: 5,
-    marginVertical: 10,
-    borderRadius: 10,
-    overflow: "hidden",
-    backgroundColor: "lightgrey",
-    borderWidth: 1,
-    borderColor: "#ff4655",
-    alignItems: "center",
-    padding: 16,
-    elevation: 4,
-  },
-  characterImage: {
-    width: 150,
-    height: 150,
-    borderRadius: 8,
-  },
-  characterName: {
-    fontFamily: "valorant-font",
-    fontSize: 18,
-    marginTop: 8,
-    textAlign: "center",
-    color: "#ff4655",
   },
   input: {
     backgroundColor: "#fff",

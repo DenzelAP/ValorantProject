@@ -81,17 +81,6 @@ const MatchingGame: React.FC = () => {
     }
   }, [score, cards.length, timeElapsed]);
 
-  const saveScore = async (name: string, finalScore: number) => {
-    try {
-      const existingScores = await AsyncStorage.getItem("highscores");
-      const highscores = existingScores ? JSON.parse(existingScores) : [];
-      const updatedScores = [...highscores, { name, score: finalScore }];
-      await AsyncStorage.setItem("highscores", JSON.stringify(updatedScores));
-    } catch (error) {
-      console.error("Failed to save score", error);
-    }
-  };
-
   const handleCardPress = (index: number) => {
     if (
       cards[index].flipped ||
@@ -157,19 +146,41 @@ const MatchingGame: React.FC = () => {
 
   const handleSaveName = async () => {
     if (playerName.trim()) {
-      const bonusPoints = Math.ceil(timeLeft * 2);
-      const finalScore = score + bonusPoints;
-      await saveScore(playerName, finalScore);
-      setModalVisible(false);
-      Alert.alert(
-        "Score Saved!",
-        `Your score of ${finalScore} has been saved!`
-      );
+      try {
+        const existingScores = await AsyncStorage.getItem("highscores");
+        const highscores = existingScores ? JSON.parse(existingScores) : [];
+
+        // Check if the name already exists
+        const nameExists = highscores.some(
+          (score: { name: string; score: number }) =>
+            score.name === playerName.trim()
+        ); // .some returns true if at least one element satisfies the condition
+        if (nameExists) {
+          Alert.alert(
+            "Name Taken",
+            "This name has already been used. Please choose another name."
+          );
+          return;
+        }
+
+        const bonusPoints = Math.ceil(timeLeft * 2);
+        const finalScore = score + bonusPoints;
+        const updatedScores = [
+          ...highscores,
+          { name: playerName.trim(), score: finalScore },
+        ];
+        await AsyncStorage.setItem("highscores", JSON.stringify(updatedScores));
+        setModalVisible(false);
+        navigation.goBack();
+        Alert.alert(
+          "Score Saved!",
+          `Your score of ${finalScore} has been saved!`
+        );
+      } catch (error) {
+        console.error("Failed to save score", error);
+      }
     } else {
-      Alert.alert(
-        "Invalid Name",
-        "Please enter a valid name to save your score"
-      );
+      Alert.alert("Invalid Name", "Name cannot be empty.");
     }
   };
 

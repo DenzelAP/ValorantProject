@@ -28,18 +28,22 @@ const CharacterCreate = () => {
     role: null,
   });
 
-  const { characters, createCharacter } = useContext(DataContext);
+  const { createCharacter } = useContext(DataContext);
 
   const navigation = useNavigation();
 
   const handleCreateCharacter = () => {
-    // Ensure a fresh UUID is generated right before saving the character
+    if (!newCharacter.displayName.trim() || !newCharacter.description.trim()) {
+      Alert.alert("Validation Error", "Name and description cannot be empty.");
+      return;
+    }
+
     const characterWithUUID = { ...newCharacter, uuid: uuidv4() };
 
     if (createCharacter) {
-      createCharacter(characterWithUUID); // Save character with a unique UUID
+      createCharacter(characterWithUUID);
       Alert.alert("Character created successfully");
-      navigation.goBack(); // Navigate back to the character list
+      navigation.goBack();
     }
   };
 
